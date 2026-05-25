@@ -1,6 +1,7 @@
 import type { GatsbyConfig } from "gatsby"
 
 const config: GatsbyConfig = {
+  pathPrefix: "/ntg-ti-gatsby",
   siteMetadata: {
     title: `NTG-TI landing-page`,
     siteUrl: `https://www.yourdomain.tld`,
