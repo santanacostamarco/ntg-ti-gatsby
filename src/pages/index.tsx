@@ -3,6 +3,7 @@ import type { HeadFC, PageProps } from "gatsby";
 import { Banner } from "../components/sections/Banner";
 import { About } from "../components/sections/About";
 import { Portfolio } from "../components/sections/Portfolio";
+import { Team } from "../components/sections/Team";
 import { Contact } from "../components/sections/Contact";
 
 const IndexPage: React.FC<PageProps> = () => {
@@ -11,6 +12,7 @@ const IndexPage: React.FC<PageProps> = () => {
       <Banner />
       <About />
       <Portfolio />
+      <Team />
       <Contact />
     </main>
   );
