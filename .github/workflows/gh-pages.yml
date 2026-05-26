@@ -29,7 +29,7 @@ jobs:
           cache: 'npm'
           
       - name: Install dependencies
-        run: npm ci
+        run: npm install --legacy-peer-deps
 
       # Se for página principal (SEM pathPrefix), use apenas: run: npm run build
       # Se for página de projeto (COM pathPrefix configurado no passo 1), use: run: npx gatsby build --prefix-paths
