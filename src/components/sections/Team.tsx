@@ -1,24 +1,27 @@
 import React, { useRef, useState, useEffect } from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import { Heading2 } from "../ui/Typography";
 import { FadeIn } from "../ui/FadeIn";
 import { NextSectionArrow } from "../ui/NextSectionArrow";
+
+// Import dos avatares reais
+import thiagoImg from "./assets/avatars/Thiago.jpeg";
+import guilhermeImg from "./assets/avatars/Guilherme.jpeg";
+import marcoImg from "./assets/avatars/Marco.jpeg";
 
 interface TeamMember {
   name: string;
   role: string;
   linkedin: string;
-  github: string;
+  github?: string;
+  image?: string;
 }
 
 const teamMembers: TeamMember[] = [
-  { name: "Natan", role: "Presidente", linkedin: "#", github: "#" },
-  { name: "Thiago", role: "Vice-Presidente & Gerente de Marketing", linkedin: "#", github: "#" },
-  { name: "Guilherme", role: "Gerente de Desenvolvimento", linkedin: "#", github: "#" },
-  { name: "Gustavo", role: "Desenvolvedor", linkedin: "#", github: "#" },
-  { name: "Marco", role: "Desenvolvedor", linkedin: "#", github: "#" }
+  { name: "Natan", role: "CEO", linkedin: "https://www.linkedin.com/in/natan-tavares-7a3623318/" },
+  { name: "Thiago", role: "Gerente de Marketing & Customer Success", linkedin: "https://www.linkedin.com/in/thiago-silveira-b9ab76228/", image: thiagoImg },
+  { name: "Guilherme", role: "Gerente Financeiro", linkedin: "https://www.linkedin.com/in/guilherme-araujol/", github: "https://github.com/LokiLkR", image: guilhermeImg },
+  { name: "Gustavo", role: "Desenvolvedor", linkedin: "https://www.linkedin.com/in/gustarmartins/", github: "https://github.com/gustarmartins" },
+  { name: "Marco", role: "Gerente de Tecnologia & Produto", linkedin: "https://www.linkedin.com/in/santanacostamarco/", github: "https://github.com/santanacostamarco", image: marcoImg }
 ];
 
 const TeamCard = ({ member }: { member: TeamMember }) => {
@@ -61,7 +64,7 @@ const TeamCard = ({ member }: { member: TeamMember }) => {
   };
 
   return (
-    <div className="px-4 py-8" style={{ perspective: "1000px" }}>
+    <div className="px-4 py-8 w-[280px] sm:w-[320px] md:w-[360px] shrink-0" style={{ perspective: "1000px" }}>
       <div
         ref={cardRef}
         onMouseMove={handleMouseMove}
@@ -78,6 +81,14 @@ const TeamCard = ({ member }: { member: TeamMember }) => {
         <div className="absolute inset-0 bg-slate-800 z-0" />
 
         <div
+          className="absolute inset-0 z-0 transition-opacity duration-300 hidden md:block"
+          style={{
+            opacity: spotlight.opacity,
+            background: `radial-gradient(400px circle at ${spotlight.x}px ${spotlight.y}px, rgba(56,189,248,0.4), transparent 40%)`
+          }}
+        />
+
+        <div
           className="absolute inset-[1px] bg-slate-900 z-10"
           style={{ clipPath: "polygon(0 0, calc(100% - 29px) 0, 100% 29px, 100% 100%, 0 100%)" }}
         />
@@ -88,12 +99,20 @@ const TeamCard = ({ member }: { member: TeamMember }) => {
             style={{ clipPath: "polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%)" }}
           >
             <div
-              className="absolute inset-[1px] bg-slate-900 flex items-center justify-center"
+              className="absolute inset-[1px] bg-slate-900 flex items-center justify-center overflow-hidden"
               style={{ clipPath: "polygon(0 0, calc(100% - 19px) 0, 100% 19px, 100% 100%, 0 100%)" }}
             >
-              <svg className="w-12 h-12 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
+              {member.image ? (
+                <img
+                  src={member.image}
+                  alt={member.name}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <svg className="w-12 h-12 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              )}
             </div>
           </div>
 
@@ -106,11 +125,11 @@ const TeamCard = ({ member }: { member: TeamMember }) => {
                 <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
               </svg>
             </a>
-            <a href={member.github} className="text-slate-400 hover:text-white transition-colors" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            {member.github && (<a href={member.github} className="text-slate-400 hover:text-white transition-colors" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
               </svg>
-            </a>
+            </a>)}
           </div>
         </div>
       </div>
@@ -119,40 +138,135 @@ const TeamCard = ({ member }: { member: TeamMember }) => {
 };
 
 export const Team = () => {
-  const [slidesToShow, setSlidesToShow] = useState(3);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeftVal, setScrollLeftVal] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Duplicamos a lista para criar um scroll infinito perfeito e sem cortes visuais
+  const duplicatedMembers = [...teamMembers, ...teamMembers, ...teamMembers, ...teamMembers];
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setSlidesToShow(1);
-      } else if (window.innerWidth < 1024) {
-        setSlidesToShow(2);
+    const container = containerRef.current;
+    if (!container) return;
+
+    let animationFrameId: number;
+    const speed = 0.8; // Velocidade lenta e constante da rolagem (em pixels por frame)
+    let currentScroll = container.scrollLeft;
+
+    const scroll = () => {
+      const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
+      // Auto-scrolla apenas se NÃO for mobile, NÃO estiver arrastando e NÃO estiver com hover (desktop only)
+      if (!isMobile && !isDragging && !isHovered) {
+        currentScroll += speed;
+
+        // Quando chega na metade do scroll total, reposiciona para o início de forma imperceptível
+        const halfScrollWidth = container.scrollWidth / 2;
+        if (currentScroll >= halfScrollWidth) {
+          currentScroll -= halfScrollWidth;
+        }
+        container.scrollLeft = currentScroll;
       } else {
-        setSlidesToShow(3);
+        // Se for mobile, estiver arrastando ou com mouse por cima, sincroniza nossa variável local com o estado do DOM
+        currentScroll = container.scrollLeft;
       }
+      animationFrameId = requestAnimationFrame(scroll);
     };
 
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+    animationFrameId = requestAnimationFrame(scroll);
 
-  const settings = {
-    dots: false,
-    infinite: true,
-    speed: 10000,
-    autoplay: true,
-    autoplaySpeed: 0,
-    cssEase: "linear",
-    slidesToShow: slidesToShow,
-    slidesToScroll: 1,
-    pauseOnHover: true,
-    swipeToSlide: true,
-    arrows: false,
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [isDragging, isHovered]);
+
+  // Handlers para mouse (desktop)
+  const handleMouseDown = (e: React.MouseEvent) => {
+    const container = containerRef.current;
+    if (!container) return;
+    setIsDragging(true);
+    setStartX(e.pageX - container.offsetLeft);
+    setScrollLeftVal(container.scrollLeft);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+    setIsHovered(false);
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const container = containerRef.current;
+    if (!container) return;
+    const x = e.pageX - container.offsetLeft;
+    const walk = (x - startX) * 1.5; // Ajuste de sensibilidade do arrasto
+    container.scrollLeft = scrollLeftVal - walk;
+
+    // Garante que o scroll permaneça infinito no arrasto manual
+    const halfScrollWidth = container.scrollWidth / 2;
+    if (container.scrollLeft >= halfScrollWidth) {
+      container.scrollLeft -= halfScrollWidth;
+      setStartX(e.pageX - container.offsetLeft);
+      setScrollLeftVal(container.scrollLeft);
+    } else if (container.scrollLeft <= 0) {
+      container.scrollLeft += halfScrollWidth;
+      setStartX(e.pageX - container.offsetLeft);
+      setScrollLeftVal(container.scrollLeft);
+    }
+  };
+
+  // Handlers para touch (mobile)
+  const handleTouchStart = (e: React.TouchEvent) => {
+    const container = containerRef.current;
+    if (!container) return;
+    setIsDragging(true);
+    setStartX(e.touches[0].pageX - container.offsetLeft);
+    setScrollLeftVal(container.scrollLeft);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging) return;
+    const container = containerRef.current;
+    if (!container) return;
+    const x = e.touches[0].pageX - container.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    container.scrollLeft = scrollLeftVal - walk;
+
+    const halfScrollWidth = container.scrollWidth / 2;
+    if (container.scrollLeft >= halfScrollWidth) {
+      container.scrollLeft -= halfScrollWidth;
+      setStartX(e.touches[0].pageX - container.offsetLeft);
+      setScrollLeftVal(container.scrollLeft);
+    } else if (container.scrollLeft <= 0) {
+      container.scrollLeft += halfScrollWidth;
+      setStartX(e.touches[0].pageX - container.offsetLeft);
+      setScrollLeftVal(container.scrollLeft);
+    }
   };
 
   return (
     <section className="w-full min-h-screen relative flex flex-col justify-center py-24 md:py-32 bg-slate-900 border-t border-slate-800" id="team">
+      {/* Bloco de estilo inline para esconder a barra de rolagem de forma robusta e modular */}
+      <style dangerouslySetInnerHTML={{
+        __html: `
+        .scrollbar-none::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-none {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}} />
+
       <FadeIn className="w-full">
         {/* Section Label */}
         <div className="flex items-center gap-4 mb-16 opacity-80 max-w-6xl mx-auto px-6 md:px-12">
@@ -167,13 +281,30 @@ export const Team = () => {
           </Heading2>
         </div>
 
-        {/* Carousel */}
-        <div className="w-full pb-8">
-          <Slider {...settings}>
-            {teamMembers.map((member, idx) => (
+        {/* Carousel Vanilla (Horizontal drag, instant freeze on hover, smooth infinite scroll) */}
+        <div
+          className="w-full overflow-hidden"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <div
+            ref={containerRef}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            onMouseMove={handleMouseMove}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleMouseUp}
+            onTouchMove={handleTouchMove}
+            className={`flex overflow-x-auto select-none scrollbar-none py-4 px-4 ${isDragging ? "cursor-grabbing" : "cursor-grab"
+              }`}
+            style={{
+              WebkitOverflowScrolling: "touch"
+            }}
+          >
+            {duplicatedMembers.map((member, idx) => (
               <TeamCard key={idx} member={member} />
             ))}
-          </Slider>
+          </div>
         </div>
       </FadeIn>
 
